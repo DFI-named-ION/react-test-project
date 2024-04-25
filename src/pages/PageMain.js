@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 
 export const PageMain = () => {
 
@@ -8,9 +8,9 @@ export const PageMain = () => {
     const [birthday, setBirthday] = useState(Date.now());
     const [file, setFile] = useState(null);
 
-    // useEffect(() => {
-    //     axios.get(process.env.REACT_APP_WEB_API_BASE_URL + "/users").then(response => setRecords(response.data)).catch(exception => console.log(exception));
-    // }, []);
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_WEB_API_BASE_URL + "/users").then(response => setRecords(response.data)).catch(exception => console.log(exception));
+    }, []);
     
     const handleAdd = (event) => {
         event.preventDefault();
@@ -24,7 +24,7 @@ export const PageMain = () => {
             birthday: birthday
         };
 
-        //axios.post(process.env.REACT_APP_WEB_API_BASE_URL + "/users", user).catch(exception => console.log(exception));
+        axios.post(process.env.REACT_APP_WEB_API_BASE_URL + "/users", user).catch(exception => console.log(exception));
     };
 
     const handleFileChange = (event) => {
