@@ -21,12 +21,21 @@ jobs:
         with:
           node-version: '18.x'
 
+          
       - name: Create .env file
         run: |
-          echo "REACT_APP_WEB_API_BASE_URL=$env:REACT_APP_WEB_API_BASE_URL" > .env
+          $url = "${{ secrets.REACT_APP_WEB_API_BASE_URL }}"
+          "REACT_APP_WEB_API_BASE_URL=$url" | Out-File -Encoding ASCII .env
+        shell: pwsh
+
+      - name: Print secret to console for debugging
+        run: |
+          $url = "${{ secrets.REACT_APP_WEB_API_BASE_URL }}"
+          Write-Host "The value of REACT_APP_WEB_API_BASE_URL is: $url"
         shell: pwsh
         env:
           REACT_APP_WEB_API_BASE_URL: ${{ secrets.REACT_APP_WEB_API_BASE_URL }}
+
 
       - name: npm install, build, and test
         run: |
