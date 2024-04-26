@@ -18,7 +18,8 @@ jobs:
         with:
           node-version: '18.x'
 
-      # No need to create .env file since we are using GitHub Secrets directly
+      - name: Display my secret
+        run: echo "Secret is ${{ secrets.REACT_APP_WEB_API_BASE_URL }}"
 
       - name: npm install, build, and test
         run: |
