@@ -24,6 +24,9 @@ jobs:
       - name: Create .env file
         run: |
           echo "REACT_APP_WEB_API_BASE_URL=${{ secrets.REACT_APP_WEB_API_BASE_URL }}" > .env
+          cat .env
+          echo "Value in the .env file:"
+          echo $REACT_APP_WEB_API_BASE_URL
 
       - name: npm install, build, and test
         run: |
