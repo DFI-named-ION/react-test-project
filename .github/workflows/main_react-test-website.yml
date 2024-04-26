@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - react-test-website
 
 on:
@@ -21,27 +18,15 @@ jobs:
         with:
           node-version: '18.x'
 
-          
-      - name: Create .env file
-        run: |
-          $url = "${{ secrets.REACT_APP_WEB_API_BASE_URL }}"
-          "REACT_APP_WEB_API_BASE_URL=$url" | Out-File -Encoding ASCII .env
-        shell: pwsh
-
-      - name: Print secret to console for debugging
-        run: |
-          $url = "${{ secrets.REACT_APP_WEB_API_BASE_URL }}"
-          Write-Host "The value of REACT_APP_WEB_API_BASE_URL is: $url"
-        shell: pwsh
-        env:
-          REACT_APP_WEB_API_BASE_URL: ${{ secrets.REACT_APP_WEB_API_BASE_URL }}
-
+      # No need to create .env file since we are using GitHub Secrets directly
 
       - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
+        env:  # Set environment variable for the build process
+          REACT_APP_WEB_API_BASE_URL: ${{ secrets.REACT_APP_WEB_API_BASE_URL }}
 
       # ZIP the build
       - name: Zip Release
@@ -50,7 +35,6 @@ jobs:
           filename: release.zip
           path: ./build/*
 
-          
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -72,7 +56,6 @@ jobs:
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
         with:
           app-name: 'react-test-website'
           slot-name: 'Production'
